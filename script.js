@@ -16,20 +16,14 @@ function getInputValue()
     ctx.font = '800 48px Sarabun';
     ctx.fillText(`${inputVal}`,frame.width/2,450);
 
-    if(window.navigator.msSaveBlob){
-        window.navigator.msSaveBlob(canvas.msToBlob(),`Imperial_Service_${inputVal}.png`);
-    } else {
-        const a = document.createElement('a');
-        document.body.appendChild(a);
-        a.href = canvas.toDataURL();
-        a.download = `Imperial_Service_${inputVal}.png`;
-        a.click();
-        document.body.removeChild(a);
-        var imgData = canvas.toDataURL("image/jpeg", 1.0);
-        var pdf = new jsPDF();
-      
-        pdf.addImage(imgData, 'JPEG', 0, 0);
-        pdf.save("download.pdf");
-    }
+    var imgData = canvas.toDataURL("image/jpeg", 1.0);
+    var pdf = new jsPDF({
+        orientation: 'l',
+        unit: 'pt',
+        format: [892.9125,631.4175],
+        });
+
+    pdf.addImage(imgData, 'JPEG', 0, 0);
+    pdf.save(`Imperial_Service_${inputVal}.pdf`);
 }
 
